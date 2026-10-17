@@ -1,3 +1,5 @@
+tg and jj 
+https://drive.google.com/file/d/1D0v2UNKzjQ7umB9KjMJ_pLtPO9PxkZXq/view?usp=drivesdk
 https://drive.google.com/file/d/1fWTsolRHLjjO89kDch2yEo402JJR0uLK/view?usp=sharing
 TG
 https://drive.google.com/file/d/1Dk_LNqdieED0kJs0eQVUkkafbqK9xN3q/view?usp=sharing
