@@ -43,7 +43,7 @@ object Streams {
         StreamProfile("jiotv", "@shoebbro", true, false, "https://www.jiotv.com/"),
         // 7: same, token also on every segment
         StreamProfile("jiotv+token", "@shoebbro", true, true, "https://www.jiotv.com/"),
-        // 8: Star Sports (jiotvpllive): exactly what the backup web player sends - plaYtv UA, JioTV Referer, per-channel token on everything
+        // 8: Star Sports (jiotvpllive): the stream the jjtvxweb player sends - plaYtv UA, JioTV Referer, per-channel token on everything
         StreamProfile("jioweb", "plaYtv/7.1.5", true, true, "https://www.jiotv.com/"),
         // 9: jjtvxweb.pages.dev request filter, byte for byte: UA plaYtv/7.1.5, Referer jiotv.com, no Cookie header,
         //    fresh token as the whole query of the manifest and every segment
@@ -82,7 +82,7 @@ object Streams {
         if (!p.tokenOnSegments || token == null) return http
         val host = Uri.parse(url).host
         // like the website's player: manifest and every segment on the stream's CDN carry the token as their whole query
-        // (also after a redirect from a relay server to the Jio CDN, which is how the backup servers hand streams out)
+        // (also after a redirect from a relay server to the Jio CDN)
         return ResolvingDataSource.Factory(http, ResolvingDataSource.Resolver { spec ->
             val u = spec.uri
             val h = u.host ?: ""

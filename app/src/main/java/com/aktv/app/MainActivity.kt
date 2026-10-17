@@ -849,7 +849,11 @@ class MainActivity : AppCompatActivity() {
         io.execute {
             try {
                 val found = ArrayList<Src>()
-                fun add(u: String, d: JSONObject?, dash: Boolean) { if (u.startsWith("http") && found.none { it.url == u }) found.add(Src(u, d, dash)) }
+                fun add(u: String, d: JSONObject?, dash: Boolean) {
+                    // the site's generic relay (/jiotv-m3u/jtv.mpd) has no channel in it: it answers "invalid id" for every channel
+                    if (u.contains("/jiotv-m3u/jtv.mpd")) return
+                    if (u.startsWith("http") && found.none { it.url == u }) found.add(Src(u, d, dash))
+                }
                 val v1 = !ch.v2
                 // 1. jjtvxweb.pages.dev links (with its per-channel tokens and keys)
                 val jj = try { jjF.get(8, java.util.concurrent.TimeUnit.SECONDS) } catch (_: Exception) { emptyList() }

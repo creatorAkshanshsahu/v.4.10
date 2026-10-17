@@ -378,7 +378,7 @@ object TgServers {
             val cookie = if (isJioPl(u)) (try { starCookie(eid) } catch (_: Exception) { null } ?: continue)
                          else try { primaryCookie() } catch (_: Exception) { "" }
             val full = if (cookie.isNotEmpty()) withCookie(u, cookie) else u
-            if (out.none { it.url == full }) out.add(Server("Backup ${out.size + 1}", full, drm))
+            if (out.none { it.url == full }) out.add(Server("Stream ${out.size + 1}", full, drm))
         }
         return out
     }
