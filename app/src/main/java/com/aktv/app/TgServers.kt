@@ -382,34 +382,4 @@ object TgServers {
         }
         return out
     }
-
-    /**
-     * The backup player's address for a channel: https://jjtvxweb.pages.dev/pind?id=<id>. The id is looked up by channel name
-     * in that site's own page and scripts (remembered once found); if that finds nothing, the channel's own id is used when
-     * it is a number. Blocking: call off the main thread.
-     */
-    fun altUrl(chId: String, name: String): String {
-        val key = Playlist.norm(name)
-        prefs?.getString("alt_$key", null)?.let { return "$ALT_SITE/pind?id=$it" }
-        var id: String? = null
-        val html = get(ALT_SITE)
-        if (html != null && key.length >= 3) {
-            val texts = arrayListOf(clean(html))
-            Regex("src=\"([^\"]+\\.js)\"").findAll(html).map { it.groupValues[1] }.distinct().take(6).map { s ->
-                val u = if (s.startsWith("http")) s else ALT_SITE + (if (s.startsWith("/")) s else "/$s")
-                pool.submit(Callable { get(u) })
-            }.toList().forEach { f -> try { f.get(8, TimeUnit.SECONDS)?.let { texts.add(clean(it)) } } catch (_: Exception) {} }
-            val idRx = Regex("(?:\\bid|channel_?id|channelId|\\bcid)[\"']?\\s*[:=]\\s*[\"']?(\\d{1,6})", RegexOption.IGNORE_CASE)
-            val nameRx = Regex(Regex.escape(name.trim()) + "[\"']", RegexOption.IGNORE_CASE)
-            outer@ for (t in texts) for (m in nameRx.findAll(t)) {
-                val w = t.substring((m.range.first - 160).coerceAtLeast(0), (m.range.last + 160).coerceAtMost(t.length))
-                val hit = idRx.find(w)
-                if (hit != null) { id = hit.groupValues[1]; break@outer }
-            }
-        }
-        if (id == null && chId.all { it.isDigit() } && chId.isNotEmpty()) id = chId
-        if (id == null) return ALT_SITE
-        prefs?.edit()?.putString("alt_$key", id)?.apply()
-        return "$ALT_SITE/pind?id=$id"
-    }
 }

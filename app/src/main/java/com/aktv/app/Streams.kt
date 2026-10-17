@@ -51,10 +51,13 @@ object Streams {
         // 10: what a real browser actually sends from the jjtvxweb / TG TV web player. Browsers silently drop the
         //     player's own User-Agent / Referer, so the CDN really sees Chrome + the player page as Referer/Origin,
         //     with the token as the whole query of every manifest and segment request.
-        StreamProfile("webreal", CHROME, false, true, "https://jjtvxweb.pages.dev/", allHosts = true)
+        StreamProfile("webreal", CHROME, false, true, "https://jjtvxweb.pages.dev/", allHosts = true),
+        // 11: plain relay link: browser identity, no Referer, no cookie (what the relay servers accept without anything else)
+        StreamProfile("plain", CHROME, false, false, null)
     )
     const val JJWEB = 9
     const val WEBREAL = 10
+    const val PLAIN = 11
 
     fun isJio(url: String) = url.contains("jio.com", ignoreCase = true)
 

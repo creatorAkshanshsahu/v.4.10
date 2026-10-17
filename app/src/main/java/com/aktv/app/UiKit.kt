@@ -20,8 +20,8 @@ import kotlin.math.max
 object Accent {
     val ABYSS = 0xFF0E0F12.toInt()
     val SURFACE = 0xFF25272D.toInt()
-    val SIGNAL = 0xFF8AB4F8.toInt()
-    val ION = 0xFF7FE7FF.toInt()
+    val SIGNAL = 0xFF4FD8FF.toInt()
+    val ION = 0xFFA78BFA.toInt()
     val INDIGO = 0xFF4B3BD6.toInt()
     val DEEP = 0xFF1B1A6B.toInt()
     val LIVE = 0xFFE8453C.toInt()
